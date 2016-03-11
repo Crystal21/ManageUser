@@ -1,0 +1,38 @@
+package org.crce.interns.controller;
+
+import org.crce.interns.beans.StudentBean;
+import org.crce.interns.model.Student;
+import org.crce.interns.service.ManageUserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+
+
+
+
+@Controller
+public class ManageUserController {
+
+	@Autowired
+	private ManageUserService manageUserService;
+	
+	@RequestMapping("/")
+	public ModelAndView welcome(Model model) {
+		 StudentBean studentBean = new StudentBean(); // declaring
+
+         model.addAttribute("studentBean", studentBean); // adding in model
+		return new ModelAndView("index");
+	}
+	
+	@RequestMapping(value = "/registerStudent", method = RequestMethod.POST)
+	public ModelAndView addStudent(@ModelAttribute("studentBean")StudentBean studentBean,BindingResult result) {
+		manageUserService.addStudent(studentBean);
+		return new ModelAndView("index");
+	}
+
+}
